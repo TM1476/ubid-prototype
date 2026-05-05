@@ -22,6 +22,7 @@ Assigns a Unique Business Identifier (UBID)
 Builds a graph-based business intelligence layer
 Classifies businesses into Active, Dormant, or Closed
 Detects high-risk and non-compliant entities
+
 ⚙️ Features
 🔗 Entity Resolution using fuzzy matching
 🧠 UBID Generation
