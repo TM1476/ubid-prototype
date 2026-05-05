@@ -1,8 +1,8 @@
-🚀 UBID Insight Engine
+# 🚀 UBID Insight Engine
 
-AI-powered Unified Business Intelligence System
+## AI-powered Unified Business Intelligence System
 
-🔴 Problem Statement
+### 🔴 Problem Statement
 
 Karnataka’s business ecosystem is fragmented across 40+ department systems, each maintaining independent records with inconsistent formats.
 
@@ -12,7 +12,8 @@ Duplicate business entries
 No unified business identity
 Inability to track real business activity
 Poor regulatory visibility
-💡 Solution
+
+###💡 Solution
 
 UBID Insight Engine is an AI-based system that:
 
@@ -33,18 +34,19 @@ Detects high-risk and non-compliant entities
 
 Data → Preprocessing → Entity Matching → UBID Generation → Graph Layer → Classification → Dashboard → Insights
 
-🚀 Live Demo
+### 🚀 Live Demo
 
-👉 [Paste your Streamlit Link here]
+👉 https://ubid-prototype-qrkuue6xxqxno2b3x5xq6f.streamlit.app/
 
-💻 GitHub Repository
+### 💻 GitHub Repository
 
 👉 [Paste your GitHub link here]
 
-▶️ How to Run
+### ▶️ How to Run
 pip install -r requirements.txt
 streamlit run app.py
-🌍 Impact
+
+### 🌍 Impact
 Enables unified tracking of businesses
 Improves regulatory efficiency
 Detects inactive and high-risk entities
