@@ -1,65 +1,51 @@
-# 🚀 UBID Insight Engine
+🚀 UBID Insight Engine
 
-AI-powered system for **Unified Business Identification and Activity Intelligence**.
+AI-powered Unified Business Intelligence System
 
----
+🔴 Problem Statement
 
-## 🔍 Problem
-Government systems store business data in silos, leading to:
-- Duplicate records
-- No unified identity
-- No clear activity tracking
+Karnataka’s business ecosystem is fragmented across 40+ department systems, each maintaining independent records with inconsistent formats.
 
----
+This results in:
 
-## 💡 Solution
-UBID Insight Engine:
-- Links business records across departments
-- Assigns a Unique Business Identifier (UBID)
-- Classifies business activity (Active/Dormant/Closed)
-- Detects risk patterns
-- Visualizes relationships using graph models
+Duplicate business entries
+No unified business identity
+Inability to track real business activity
+Poor regulatory visibility
+💡 Solution
 
----
+UBID Insight Engine is an AI-based system that:
 
-## ⚙️ Features
-- Entity Resolution using similarity scoring
-- UBID generation
-- Activity classification engine
-- Risk detection layer
-- Graph visualization
-- Analytics dashboard
+Links business records across departments
+Assigns a Unique Business Identifier (UBID)
+Builds a graph-based business intelligence layer
+Classifies businesses into Active, Dormant, or Closed
+Detects high-risk and non-compliant entities
+⚙️ Features
+🔗 Entity Resolution using fuzzy matching
+🧠 UBID Generation
+📊 Dashboard Analytics
+🌐 Interactive Business Graph Visualization
+🔍 Smart Query System (ask for dormant/risk businesses)
+🚨 Risk Detection & Alerts
+📁 CSV Upload Support
+🏗️ Architecture
 
----
+Data → Preprocessing → Entity Matching → UBID Generation → Graph Layer → Classification → Dashboard → Insights
 
-## 🧠 Tech Stack
-- Python
-- Streamlit
-- Pandas
-- NetworkX
-- RapidFuzz
+🚀 Live Demo
 
----
+👉 [Paste your Streamlit Link here]
 
-## 🌐 Live Demo
-(Will be added after deployment)
+💻 GitHub Repository
 
----
+👉 [Paste your GitHub link here]
 
-## 📊 How to Use
-1. Click **Run UBID Engine**
-2. View unified records
-3. Analyze dashboard & graph
-
----
-
-## 🎯 Impact
-- Helps government track real businesses
-- Improves inspection planning
-- Enables data-driven decisions
-
----
-
-## 👨‍💻 Team
-- Mahalakshmi  
-- Tharun Raj
+▶️ How to Run
+pip install -r requirements.txt
+streamlit run app.py
+🌍 Impact
+Enables unified tracking of businesses
+Improves regulatory efficiency
+Detects inactive and high-risk entities
+Supports data-driven governance
