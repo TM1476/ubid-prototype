@@ -1,0 +1,6 @@
+id,name,address,pan,gstin,department,activity
+1,ABC Traders,MG Road Bangalore,,29ABCDE1234F1Z5,Shops,inspection
+2,A.B.C Traders,MG Rd Bengaluru,,29ABCDE1234F1Z5,Labour,renewal
+3,XYZ Industries,Peenya Industrial Area,ABCDE9999X,,Factories,none
+4,XYZ Ind.,Peenya Area Bangalore,ABCDE9999X,,Pollution,inspection
+5,Fresh Foods,Whitefield Bangalore,,29FFF1234F1Z2,Food,none
