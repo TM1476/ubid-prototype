@@ -13,7 +13,7 @@ No unified business identity
 Inability to track real business activity
 Poor regulatory visibility
 
-###💡 Solution
+### 💡 Solution
 
 UBID Insight Engine is an AI-based system that:
 
@@ -40,7 +40,7 @@ Data → Preprocessing → Entity Matching → UBID Generation → Graph Layer �
 
 ### 💻 GitHub Repository
 
-👉 [Paste your GitHub link here]
+👉 https://github.com/TM1476/ubid-prototype
 
 ### ▶️ How to Run
 pip install -r requirements.txt
