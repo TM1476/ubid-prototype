@@ -2,4 +2,4 @@ streamlit
 pandas
 rapidfuzz
 networkx
-matplotlib
+plotly
