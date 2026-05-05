@@ -5,20 +5,29 @@ import uuid
 import networkx as nx
 import plotly.graph_objects as go
 
+# -----------------------------
+# PAGE CONFIG
+# -----------------------------
 st.set_page_config(page_title="UBID Insight Engine", layout="wide")
 
 st.title("🚀 UBID Insight Engine")
 st.caption("AI-powered Business Intelligence Platform")
 
-# -----------------------------
-# FILE UPLOAD
-# -----------------------------
-uploaded = st.file_uploader("Upload Dataset (CSV)", type=["csv"])
+st.success("System ready. Click 'Run UBID Engine' to generate insights.")
 
-if uploaded:
-    df = pd.read_csv(uploaded)
-else:
-    df = pd.read_csv("data/sample.csv")
+st.markdown("---")
+
+# -----------------------------
+# FILE UPLOAD + CACHE
+# -----------------------------
+@st.cache_data
+def load_data(file):
+    if file is not None:
+        return pd.read_csv(file)
+    return pd.read_csv("data/sample.csv")
+
+uploaded = st.file_uploader("Upload Dataset (CSV)", type=["csv"])
+df = load_data(uploaded)
 
 # -----------------------------
 # PREPROCESS
@@ -85,30 +94,30 @@ def risk(group):
 # -----------------------------
 if st.button("🚀 Run UBID Engine"):
 
-    clusters = cluster(df)
+    with st.spinner("Running UBID Intelligence Engine..."):
+        clusters = cluster(df)
 
-    mapping = {}
-    for group in clusters:
-        uid = str(uuid.uuid4())[:8]
-        for idx in group:
-            mapping[idx] = uid
+        mapping = {}
+        for group in clusters:
+            uid = str(uuid.uuid4())[:8]
+            for idx in group:
+                mapping[idx] = uid
 
-    df["UBID"] = df.index.map(mapping)
+        df["UBID"] = df.index.map(mapping)
 
-    status_df = df.groupby("UBID").apply(classify).reset_index(name="Status")
-    risk_df = df.groupby("UBID").apply(risk).reset_index(name="Risk")
+        status_df = df.groupby("UBID").apply(classify).reset_index(name="Status")
+        risk_df = df.groupby("UBID").apply(risk).reset_index(name="Risk")
 
-    df = df.merge(status_df, on="UBID")
-    df = df.merge(risk_df, on="UBID")
+        df = df.merge(status_df, on="UBID")
+        df = df.merge(risk_df, on="UBID")
 
     # -----------------------------
-    # FILTERS
+    # SIDEBAR FILTERS
     # -----------------------------
-    st.sidebar.header("Filters")
+    st.sidebar.title("🔎 Filters")
 
     status_filter = st.sidebar.multiselect("Status", df["Status"].unique(), default=df["Status"].unique())
     risk_filter = st.sidebar.multiselect("Risk", df["Risk"].unique(), default=df["Risk"].unique())
-
     search = st.sidebar.text_input("Search Business")
 
     df_filtered = df[
@@ -122,15 +131,19 @@ if st.button("🚀 Run UBID Engine"):
     # -----------------------------
     # METRICS
     # -----------------------------
+    st.markdown("### 📊 Key Insights")
+
     col1, col2, col3 = st.columns(3)
     col1.metric("Businesses", df_filtered["UBID"].nunique())
     col2.metric("Active", sum(df_filtered["Status"] == "Active"))
     col3.metric("Risk Cases", sum(df_filtered["Risk"] != "OK"))
 
+    st.markdown("---")
+
     # -----------------------------
     # TABLE
     # -----------------------------
-    st.subheader("📊 Business Data")
+    st.subheader("📋 Business Data")
     st.dataframe(df_filtered[["name", "address", "UBID", "Status", "Risk"]])
 
     # -----------------------------
@@ -146,15 +159,17 @@ if st.button("🚀 Run UBID Engine"):
         st.subheader("Risk Distribution")
         st.bar_chart(df_filtered["Risk"].value_counts())
 
+    st.markdown("---")
+
     # -----------------------------
-    # INTERACTIVE GRAPH
+    # IMPROVED GRAPH
     # -----------------------------
-    st.subheader("🔗 Business Relationship Graph")
+    st.subheader("🔗 Business Relationship Network")
 
     G = nx.Graph()
 
     for i, row in df_filtered.iterrows():
-        G.add_node(i, label=row["name"])
+        G.add_node(i, label=row["name"], status=row["Status"])
 
     for ubid, group in df_filtered.groupby("UBID"):
         nodes = list(group.index)
@@ -164,8 +179,7 @@ if st.button("🚀 Run UBID Engine"):
 
     pos = nx.spring_layout(G, seed=42)
 
-    edge_x = []
-    edge_y = []
+    edge_x, edge_y = [], []
 
     for edge in G.edges():
         x0, y0 = pos[edge[0]]
@@ -173,22 +187,28 @@ if st.button("🚀 Run UBID Engine"):
         edge_x += [x0, x1, None]
         edge_y += [y0, y1, None]
 
-    node_x = []
-    node_y = []
-    text = []
+    node_x, node_y, text, colors = [], [], [], []
 
     for node in G.nodes():
         x, y = pos[node]
         node_x.append(x)
         node_y.append(y)
-        text.append(df_filtered.loc[node, "name"])
+        text.append(G.nodes[node]["label"])
+
+        status = G.nodes[node]["status"]
+        if status == "Active":
+            colors.append("green")
+        elif status == "Dormant":
+            colors.append("orange")
+        else:
+            colors.append("red")
 
     fig = go.Figure()
 
     fig.add_trace(go.Scatter(
         x=edge_x, y=edge_y,
         mode='lines',
-        line=dict(width=1),
+        line=dict(width=1, color="#888"),
         hoverinfo='none'
     ))
 
@@ -197,26 +217,50 @@ if st.button("🚀 Run UBID Engine"):
         mode='markers+text',
         text=text,
         textposition="top center",
-        marker=dict(size=12),
+        marker=dict(size=14, color=colors),
         hoverinfo='text'
     ))
 
     fig.update_layout(
         showlegend=False,
-        height=500,
-        margin=dict(l=0, r=0, t=0, b=0)
+        height=600,
+        margin=dict(l=0, r=0, t=0, b=0),
+        plot_bgcolor="#0E1117",
+        paper_bgcolor="#0E1117"
     )
 
     st.plotly_chart(fig, use_container_width=True)
 
+    st.markdown("---")
+
+    # -----------------------------
+    # 🔥 SMART INSIGHTS (KILLER FEATURE)
+    # -----------------------------
+    st.subheader("🧠 Smart Query & Risk Detection")
+
+    query = st.text_input("Ask (e.g., 'dormant', 'risk')")
+
+    if query:
+        if "dormant" in query.lower():
+            st.warning("Dormant Businesses Identified")
+            st.dataframe(df_filtered[df_filtered["Status"] == "Dormant"])
+
+        elif "risk" in query.lower():
+            st.error("High Risk Businesses")
+            st.dataframe(df_filtered[df_filtered["Risk"] != "OK"])
+
+        else:
+            st.info("Showing all data")
+            st.dataframe(df_filtered)
+
     # -----------------------------
     # INSIGHTS PANEL
     # -----------------------------
-    st.subheader("🧠 Insights")
+    st.subheader("📢 System Insights")
 
     if sum(df_filtered["Risk"] != "OK") > 0:
         st.warning("Some businesses lack inspection activity.")
     else:
-        st.success("All businesses have proper inspection records.")
+        st.success("All businesses compliant.")
 
-    st.info("System identifies duplicates and assigns UBID automatically.")
+    st.info("UBID system automatically links duplicate entities and builds intelligence layer.")
